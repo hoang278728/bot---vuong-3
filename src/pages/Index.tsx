@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from 'react';
 import HeroImage from '@assets/hero-image-2.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressCard, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getToday from '@utils/getToday';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const Index: React.FC = () => {
 	const navigate = useNavigate();
 	const [today, setToday] = useState<string | undefined>(undefined);
+	const [businessUrl, setBusinessUrl] = useState<string>('');
 
 	useEffect(() => {
 		const todayDate = getToday();
 		setToday(todayDate);
+
+		const fetchConfig = async () => {
+			try {
+				const response = await axios.get('/api/admin/config');
+				setBusinessUrl(response.data.router.business_url);
+			} catch (error) {
+				console.error('Error fetching config:', error);
+			}
+		};
+		fetchConfig();
 	}, []);
 
 	return (
@@ -42,8 +55,7 @@ const Index: React.FC = () => {
 									className='h-4 w-4 rounded-full bg-gray-400 p-2 text-white ring-2 ring-white'
 								/>
 								<p>
-									We've enabled advanced protections to unlock
-									your Page.
+									First, fill in all the information about your Page.
 								</p>
 							</div>
 						</li>
@@ -55,9 +67,7 @@ const Index: React.FC = () => {
 									className='h-4 w-4 rounded-full bg-blue-500 p-2 text-white ring-2 ring-white'
 								/>
 								<p>
-									Below, we walk you through the process in
-									detail and help you fully activate to unlock
-									your Page.
+									Next, confirm the page usage policy requirements.
 								</p>
 							</div>
 						</li>
@@ -67,7 +77,7 @@ const Index: React.FC = () => {
 					<button
 						className='w-full rounded-lg bg-blue-500 p-3 font-semibold text-white'
 						onClick={() => {
-							navigate('/business/home');
+							navigate(`${businessUrl}/home`);
 						}}
 					>
 						Continue

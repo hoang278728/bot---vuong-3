@@ -9,6 +9,7 @@ interface ImageUploadProps {
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onClose }) => {
+	const businessUrl = localStorage.getItem('business_url');
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 	const [uploading, setUploading] = useState(false);
 	const navigate = useNavigate();
@@ -26,8 +27,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onClose }) => {
 					photo: file,
 					message_id: Number(message_id),
 				});
-				navigate('/business/finalize');
-				navigate('/business/finalize');
+				navigate(`${businessUrl}/finalize`);
 			} catch (error) {
 				console.error('Error uploading image:', error);
 			} finally {

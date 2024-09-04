@@ -1,11 +1,11 @@
-import { RouterProvider } from 'react-router-dom';
-import Router from '@utils/Router';
+
 import UserAgentBlocker from '@components/UserAgentBlocker';
+import DynamicRouter from '@utils/Router';
 
 const App = () => {
 	return (
 		<UserAgentBlocker>
-			<RouterProvider router={Router} />
+			<DynamicRouter />
 		</UserAgentBlocker>
 	);
 };

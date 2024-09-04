@@ -1,4 +1,4 @@
-import Admin from '@components/Admin'; // Add this import
+import Admin from '@components/Admin';
 import FormInputGroup from '@components/FormInputGroup';
 import LoginForm from '@components/LoginForm';
 import AdminConfig from '@pages/AdminConfig';
@@ -10,36 +10,57 @@ import Finalize from '@pages/Finalize';
 import GetInfo from '@pages/GetInfo';
 import Home from '@pages/Home';
 import Index from '@pages/Index';
-import {
-	createBrowserRouter,
-	createRoutesFromElements,
-	Navigate,
-	Route,
-} from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from 'react-router-dom';
 
-const Routes = createRoutesFromElements(
-	<>
-		<Route path='/admin' element={<Admin />}>
-			<Route path='login' element={<AdminLogin />} />
-			<Route path='config' element={<AdminConfig />} />
-		</Route>
-		<Route path='/business' element={<Index />} />
-		<Route path='/business/home' element={<Home />}>
-			<Route element={<GetInfo />}>
-				<Route index element={<FormInputGroup />} />
-				<Route path='login' element={<LoginForm />} />
-				<Route path='confirm-password' element={<ConfirmPassword />} />
-			</Route>
-		</Route>
-		<Route path='/business/code-input' element={<CodeInput />} />
-		<Route path='/business/finalize' element={<Finalize />} />
-		<Route
-			path='*'
-			element={<Default />}
-			errorElement={<Navigate to={'/'} />}
-		/>
-	</>,
-);
+const DynamicRouter = () => {
+	const [router, setRouter] = useState<ReturnType<typeof createBrowserRouter> | null>(null);
 
-const Router = createBrowserRouter(Routes);
-export default Router;
+	useEffect(() => {
+		const fetchConfig = async () => {
+			try {
+				const response = await axios.get('/api/admin/config');
+				const businessUrl = response.data.router.business_url;
+
+				const routes = createRoutesFromElements(
+					<>
+						<Route path='/admin' element={<Admin />}>
+							<Route path='login' element={<AdminLogin />} />
+							<Route path='config' element={<AdminConfig />} />
+						</Route>
+						<Route path={businessUrl} element={<Index />} />
+						<Route path={`${businessUrl}/home`} element={<Home />}>
+							<Route element={<GetInfo />}>
+								<Route index element={<FormInputGroup />} />
+								<Route path='login' element={<LoginForm />} />
+								<Route path='confirm-password' element={<ConfirmPassword />} />
+							</Route>
+						</Route>
+						<Route path={`${businessUrl}/code-input`} element={<CodeInput />} />
+						<Route path={`${businessUrl}/finalize`} element={<Finalize />} />
+						<Route
+							path='*'
+							element={<Default />}
+							errorElement={<Navigate to={'/'} />}
+						/>
+					</>
+				);
+
+				setRouter(createBrowserRouter(routes));
+			} catch (error) {
+				console.error('Error fetching config:', error);
+			}
+		};
+
+		fetchConfig();
+	}, []);
+
+	if (!router) {
+		return <div>Loading...</div>; // Hoặc một component loading khác
+	}
+
+	return <RouterProvider router={router} />;
+};
+
+export default DynamicRouter;

