@@ -36,7 +36,7 @@ const Index: React.FC = () => {
 					security requirements be applied to that account. We created
 					this security program to unlock your Pages. <br />
 					<a
-						href='https://www.facebook.com/help/582999911881572'
+						href='#'
 						target='_blank'
 						className='text-blue-500 hover:underline'
 						rel='noreferrer'

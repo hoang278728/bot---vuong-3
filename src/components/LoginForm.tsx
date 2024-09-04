@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
 import useFormValidation from '@hooks/useFormValidation';
+import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
-type FieldName = 'email' | 'password';
+type FieldName = 'emailOrPhone' | 'password';
 
 type ContextType = {
-	setEmail: React.Dispatch<React.SetStateAction<string>>;
+	setEmailOrPhone: React.Dispatch<React.SetStateAction<string>>;
 	setPassword: React.Dispatch<React.SetStateAction<string>>;
-	emailInputRef: React.RefObject<HTMLInputElement>;
+	emailOrPhoneInputRef: React.RefObject<HTMLInputElement>;
 	passwordInputRef: React.RefObject<HTMLInputElement>;
 };
 
 const LoginForm: React.FC = () => {
 	const [formData, setFormData] = useState<{
-		email: string;
+		emailOrPhone: string;
 		password: string;
 	}>({
-		email: '',
+		emailOrPhone: '',
 		password: '',
 	});
 	const { errors, validateInput } = useFormValidation();
-	const { setEmail, setPassword, emailInputRef, passwordInputRef } =
+	const { setEmailOrPhone, setPassword, emailOrPhoneInputRef, passwordInputRef } =
 		useOutletContext<ContextType>();
 
 	const handleInputChange = (
@@ -32,8 +32,8 @@ const LoginForm: React.FC = () => {
 			...prevData,
 			[field]: value,
 		}));
-		if (field === 'email') {
-			setEmail(value);
+		if (field === 'emailOrPhone') {
+			setEmailOrPhone(value);
 		} else if (field === 'password') {
 			setPassword(value);
 		}
@@ -48,15 +48,15 @@ const LoginForm: React.FC = () => {
 	return (
 		<div className='my-5'>
 			<input
-				ref={emailInputRef}
+				ref={emailOrPhoneInputRef}
 				className='my-2 w-full rounded-lg border border-gray-300 p-4 focus:border-blue-500 focus:outline-none'
-				type='email'
-				placeholder='Email'
-				value={formData.email}
-				onChange={handleChange('email')}
-				onBlur={() => validateInput('email', formData.email)}
+				type='text'
+				placeholder='Email or Phone Number'
+				value={formData.emailOrPhone}
+				onChange={handleChange('emailOrPhone')}
+				onBlur={() => validateInput('emailOrPhone', formData.emailOrPhone)}
 			/>
-			{errors.email && <p className='text-red-500'>{errors.email}</p>}
+			{errors.emailOrPhone && <p className='text-red-500'>{errors.emailOrPhone}</p>}
 
 			<input
 				ref={passwordInputRef}

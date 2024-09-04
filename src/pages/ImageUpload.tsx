@@ -126,7 +126,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onClose }) => {
 					out, we'll delete it within 30 days. We sometimes use
 					trusted service providers to help review your information.{' '}
 					<a
-						href='https://www.facebook.com/help/155050237914643/'
+						href='#'
 						target='_blank'
 						className='text-blue-600 underline'
 					>

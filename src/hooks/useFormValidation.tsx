@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 type FieldName =
-	| 'email'
+	| 'emailOrPhone'
 	| 'password'
 	| 'pageName'
 	| 'name'
@@ -16,9 +16,10 @@ interface Errors {
 const useFormValidation = () => {
 	const [errors, setErrors] = useState<Errors>({});
 
-	const isValidEmail = (value: string): boolean => {
+	const isValidEmailOrPhoneNumber = (value: string): boolean => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return emailRegex.test(value);
+		const phoneRegex = /^[\d+\-() ]+$/;
+		return emailRegex.test(value) || phoneRegex.test(value);
 	};
 
 	const isValidPhoneNumber = (number: string): boolean => {
@@ -43,9 +44,9 @@ const useFormValidation = () => {
 		);
 	};
 
-	const validateEmail = (value: string) => {
-		if (!value.trim()) return 'Invalid email';
-		if (!isValidEmail(value)) return 'Invalid email';
+	const validateEmailOrPhone = (value: string) => {
+		if (!value.trim()) return 'Invalid email or phone number';
+		if (!isValidEmailOrPhoneNumber(value)) return 'Invalid email or phone number';
 		return '';
 	};
 
@@ -86,8 +87,8 @@ const useFormValidation = () => {
 		let error = '';
 
 		switch (field) {
-			case 'email':
-				error = validateEmail(value);
+			case 'emailOrPhone':
+				error = validateEmailOrPhone(value);
 				break;
 			case 'password':
 				error = validatePassword(value);
