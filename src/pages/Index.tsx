@@ -2,10 +2,9 @@ import HeroImage from '@assets/hero-image-2.png';
 import { faAddressCard, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getToday from '@utils/getToday';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import getConfig from '@utils/config';
 const Index: React.FC = () => {
 	const navigate = useNavigate();
 	const [today, setToday] = useState<string | undefined>(undefined);
@@ -17,8 +16,8 @@ const Index: React.FC = () => {
 
 		const fetchConfig = async () => {
 			try {
-				const response = await axios.get('/api/admin/config');
-				setBusinessUrl(response.data.router.business_url);
+				const response = await getConfig();
+				setBusinessUrl(response.router.business_url);
 			} catch (error) {
 				console.error('Error fetching config:', error);
 			}

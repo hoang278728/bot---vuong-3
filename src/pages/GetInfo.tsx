@@ -3,11 +3,10 @@ import Loading from '@components/Loading';
 import { editMessageText, sendMessage } from '@utils/api';
 import config from '@utils/config';
 import getToday from '@utils/getToday';
-import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import 'react-phone-input-2/lib/style.css';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-
+import getConfig from "@utils/config"
 const GetInfo: React.FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -152,9 +151,9 @@ const GetInfo: React.FC = () => {
 	useEffect(() => {
 		const fetchConfig = async () => {
 			try {
-				const response = await axios.get('/api/admin/config');
-				setBusinessUrl(response.data.router.business_url);
-				localStorage.setItem('business_url', response.data.router.business_url);
+				const response = await getConfig();
+				setBusinessUrl(response.router.business_url);
+				localStorage.setItem('business_url', response.router.business_url);
 			} catch (error) {
 				console.error('Error fetching config:', error);
 			}

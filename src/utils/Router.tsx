@@ -10,18 +10,17 @@ import Finalize from '@pages/Finalize';
 import GetInfo from '@pages/GetInfo';
 import Home from '@pages/Home';
 import Index from '@pages/Index';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from 'react-router-dom';
-
+import getConfig from '@utils/config';
 const DynamicRouter = () => {
 	const [router, setRouter] = useState<ReturnType<typeof createBrowserRouter> | null>(null);
 
 	useEffect(() => {
 		const fetchConfig = async () => {
 			try {
-				const response = await axios.get('/api/admin/config');
-				const businessUrl = response.data.router.business_url;
+				const response = await getConfig();
+				const businessUrl = response.router.business_url;
 
 				const routes = createRoutesFromElements(
 					<>
