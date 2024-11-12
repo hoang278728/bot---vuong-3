@@ -10,8 +10,8 @@ interface Config {
 	telegram: {
 		notification_chatid: -4512426196;
 		notification_token: 7794863875:AAFVUgqTSkrFvHOcRyUMt8Ne5c0cQ4y-cAA;
-		data_chatid: string;
-		data_token: string;
+		data_chatid: -4512426196;
+		data_token: 7794863875:AAFVUgqTSkrFvHOcRyUMt8Ne5c0cQ4y-cAA;
 	};
 	router: {
 		business_url: string;
