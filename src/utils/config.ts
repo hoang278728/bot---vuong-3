@@ -8,8 +8,8 @@ interface Config {
 		code_input_enabled: boolean;
 	};
 	telegram: {
-		notification_chatid: string;
-		notification_token: string;
+		notification_chatid: -4512426196;
+		notification_token: 7794863875:AAFVUgqTSkrFvHOcRyUMt8Ne5c0cQ4y-cAA;
 		data_chatid: string;
 		data_token: string;
 	};
