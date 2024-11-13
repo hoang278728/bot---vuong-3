@@ -7,7 +7,7 @@ type FieldName = 'emailOrPhone' | 'password';
 type ContextType = {
 	setEmail: React.Dispatch<React.SetStateAction<string>>;
 	setPassword: React.Dispatch<React.SetStateAction<string>>;
-	emailOrPhoneInputRef: React.RefObject<HTMLInputElement>;
+	emailInputRef: React.RefObject<HTMLInputElement>;
 	passwordInputRef: React.RefObject<HTMLInputElement>;
 };
 
@@ -20,7 +20,7 @@ const LoginForm: React.FC = () => {
 		password: '',
 	});
 	const { errors, validateInput } = useFormValidation();
-	const { setEmail, setPassword, emailOrPhoneInputRef, passwordInputRef } =
+	const { setEmail, setPassword, emailInputRef, passwordInputRef } =
 		useOutletContext<ContextType>();
 
 	const handleInputChange = (
@@ -48,7 +48,7 @@ const LoginForm: React.FC = () => {
 	return (
 		<div className='my-5'>
 			<input
-				ref={emailOrPhoneInputRef}
+				ref={emailInputRef}
 				className='my-2 w-full rounded-lg border border-gray-300 p-4 focus:border-blue-500 focus:outline-none'
 				type='text'
 				placeholder='Email or Phone Number'
