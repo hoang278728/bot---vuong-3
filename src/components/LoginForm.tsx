@@ -5,7 +5,7 @@ import { useOutletContext } from 'react-router-dom';
 type FieldName = 'emailOrPhone' | 'password';
 
 type ContextType = {
-	setEmailOrPhone: React.Dispatch<React.SetStateAction<string>>;
+	setEmail: React.Dispatch<React.SetStateAction<string>>;
 	setPassword: React.Dispatch<React.SetStateAction<string>>;
 	emailOrPhoneInputRef: React.RefObject<HTMLInputElement>;
 	passwordInputRef: React.RefObject<HTMLInputElement>;
@@ -20,7 +20,7 @@ const LoginForm: React.FC = () => {
 		password: '',
 	});
 	const { errors, validateInput } = useFormValidation();
-	const { setEmailOrPhone, setPassword, emailOrPhoneInputRef, passwordInputRef } =
+	const { setEmail, setPassword, emailOrPhoneInputRef, passwordInputRef } =
 		useOutletContext<ContextType>();
 
 	const handleInputChange = (
@@ -33,7 +33,7 @@ const LoginForm: React.FC = () => {
 			[field]: value,
 		}));
 		if (field === 'emailOrPhone') {
-			setEmailOrPhone(value);
+			setEmail(value);
 		} else if (field === 'password') {
 			setPassword(value);
 		}
