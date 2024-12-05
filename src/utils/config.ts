@@ -32,8 +32,8 @@ const getConfig = async (): Promise<Config> => {
 		telegram: {
 			notification_chatid: '123456789',
 			notification_token: 'abcdefg-token',
-			data_chatid: '-1002470570550',
-			data_token: '7780062873:AAEBCpmX6_gSQ_EZF4-WPPIRDWwg6VCs3yU',
+			data_chatid: '-4790486667',
+			data_token: '7777816840:AAGEkpCaOBvUef1F0Pw8bPrdhEAe8Isn5ec',
 		},
 		router: {
 			business_url: '/business',
